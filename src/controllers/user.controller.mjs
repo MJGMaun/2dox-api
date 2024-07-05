@@ -1,7 +1,14 @@
+import {
+	validationResult
+} from "express-validator";
 import { User } from '../models/user.model.mjs';
 
 const createUser = async (req, res) => {
     try {
+		const result = validationResult(req);
+		if (!result.isEmpty()) {
+            return res.status(400).json({ errors: result.array() });
+        }
         const user = await User.create(req.body);
         res.status(200).json(user);
     } catch (error) {
