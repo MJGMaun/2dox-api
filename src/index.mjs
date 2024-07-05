@@ -1,12 +1,15 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const productRoutes = require('./routes/task.route.js');
+import express from 'express'
+import mongoose from 'mongoose';
+import taskRoutes from './routes/task.route.mjs';
+import userRoutes from './routes/user.route.mjs';
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/api/tasks', productRoutes)
+app.use('/api/tasks', taskRoutes)
+app.use('/api/users', userRoutes)
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
@@ -17,8 +20,8 @@ mongoose
 .then(() => {
 	console.log("Connected to Database!");
 
-	app.listen(3000, () => {
-		console.log('Listening on port 3000...');
+	app.listen(PORT, () => {
+		console.log(`Listening on port`, PORT);
 	});
 })
 .catch((err) => {
